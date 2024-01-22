@@ -1,0 +1,8 @@
+version: v1
+plugins:
+  - name: python
+    out: speech_service_api/grpc
+  - name: grpclib_python
+    out: speech_service_api/grpc
+  - name: mypy
+    out: speech_service_api/grpc
