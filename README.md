@@ -17,11 +17,11 @@ If blocking is set to True, will wait until the speech is said to return.
 
 ### to_text(*bytes*)
 
-The *to_text()* command takes bytes of an mp3 audio file, and converts to to text as a string response.
+The *to_text()* command takes bytes of an mp3 audio file, and returns extracted text as a string response.
 
 ### to_speech(*string*)
 
-The *to_text()* command takes a string of text, and converts it to a bytes of an audio speech file.
+The *to_text()* command takes a string of text, and returns bytes of an audio speech file.
 
 ### completion(*string*, blocking=*bool*)
 
