@@ -15,6 +15,14 @@ It returns a string response, which is the string that was passed in to the *say
 
 If blocking is set to True, will wait until the speech is said to return.
 
+### to_text(*bytes*)
+
+The *to_text()* command takes bytes of an mp3 audio file, and returns extracted text as a string response.
+
+### to_speech(*string*)
+
+The *to_text()* command takes a string of text, and returns bytes of an audio speech file.
+
 ### completion(*string*, blocking=*bool*)
 
 The *completion()* command takes a string, sends that to an AI LLM completion provider (if configured) and converts the returned completion to speech audio that is played back on the robot, provided it has an audio output (speaker) device attached.

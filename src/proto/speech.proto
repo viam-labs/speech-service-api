@@ -10,6 +10,18 @@ service SpeechService {
       post: "/viamlabs/api/v1/service/speech/{name}/say"
     };
   }
+  
+  rpc ToText(ToTextRequest) returns (ToTextResponse) {
+    option (google.api.http) = {
+      post: "/viamlabs/api/v1/service/speech/{name}/to_text"
+    };
+  }
+
+  rpc ToSpeech(ToSpeechRequest) returns (ToSpeechResponse) {
+    option (google.api.http) = {
+      post: "/viamlabs/api/v1/service/speech/{name}/to_speech"
+    };
+  }
 
   rpc Completion(CompletionRequest) returns (CompletionResponse) {
     option (google.api.http) = {
@@ -44,6 +56,24 @@ message SayRequest {
 
 message SayResponse {
   string text = 1;
+}
+
+message ToTextRequest {
+  string name = 1;
+  bytes speech = 2;
+}
+
+message ToTextResponse {
+  string text = 1;
+}
+
+message ToSpeechRequest {
+  string name = 1;
+  string text = 2;
+}
+
+message ToSpeechResponse {
+  bytes speech = 1;
 }
 
 message CompletionRequest {

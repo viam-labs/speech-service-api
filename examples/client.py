@@ -1,6 +1,6 @@
 import asyncio
 import os
-
+ 
 from speech_service_api import SpeechService
 
 from viam.logging import getLogger
@@ -31,6 +31,14 @@ async def main():
 
     text = await speech.say("Good day, friend!", True)
     LOGGER.info(f"The robot said '{text}'")
+
+    audio = await speech.to_speech("Hello there!")
+    with open("my_file.mp3", "wb") as binary_file:
+        binary_file.write(audio)
+    LOGGER.info(f"Wrote audio to my_file.mp3")
+
+    text = await speech.to_text(audio)
+    LOGGER.info(f"Got text '{text}'")
 
     # note: this will fail unless you have a completion provider configured
     text = await speech.completion("Give me a quote one might say if they were saying 'Good day, friend!'", False)
