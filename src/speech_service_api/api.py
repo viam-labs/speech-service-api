@@ -31,7 +31,7 @@ from viam.resource.types import RESOURCE_TYPE_SERVICE, Subtype
 from viam.services.service_base import ServiceBase
 
 from .grpc.speech_grpc import SpeechServiceBase, SpeechServiceStub
-from .grpc.speech_pb2 import SayRequest, SayResponse, CompletionRequest, CompletionResponse, GetCommandsRequest, GetCommandsResponse, ListenTriggerRequest, ListenTriggerResponse, IsSpeakingRequest, IsSpeakingResponse
+from .grpc.speech_pb2 import SayRequest, SayResponse, ToTextRequest, ToTextResponse, ToSpeechRequest, ToSpeechResponse, CompletionRequest, CompletionResponse, GetCommandsRequest, GetCommandsResponse, ListenTriggerRequest, ListenTriggerResponse, IsSpeakingRequest, IsSpeakingResponse
 
 
 class SpeechService(ServiceBase):
@@ -41,6 +41,15 @@ class SpeechService(ServiceBase):
     @abc.abstractmethod
     async def say(self, text: str, blocking: bool) -> str:
         ...
+
+    @abc.abstractmethod
+    async def to_text(self, speech: bytes) -> str:
+        ...
+
+    @abc.abstractmethod
+    async def to_speech(self, text: str) -> bytes:
+        ...
+
     @abc.abstractmethod
     async def completion(self, text: str, blocking: bool) -> str:
         ...
@@ -68,6 +77,22 @@ class SpeechRPCService(SpeechServiceBase, ResourceRPCServiceBase):
         service = self.get_resource(name)
         resp = await service.say(request.text, request.blocking)
         await stream.send_message(SayResponse(text=resp))
+
+    async def ToText(self, stream: Stream[ToTextRequest, ToTextResponse]) -> None:
+        request = await stream.recv_message()
+        assert request is not None
+        name = request.name
+        service = self.get_resource(name)
+        resp = await service.to_text(request.speech)
+        await stream.send_message(ToTextResponse(text=resp))
+
+    async def ToSpeech(self, stream: Stream[ToSpeechRequest, ToSpeechResponse]) -> None:
+        request = await stream.recv_message()
+        assert request is not None
+        name = request.name
+        service = self.get_resource(name)
+        resp = await service.to_speech(request.text)
+        await stream.send_message(ToSpeechResponse(speech=resp))
 
     async def Completion(self, stream: Stream[CompletionRequest, CompletionResponse]) -> None:
         request = await stream.recv_message()
@@ -112,7 +137,17 @@ class SpeechClient(SpeechService):
         request = SayRequest(name=self.name, text=text, blocking=blocking)
         response: SayResponse = await self.client.Say(request)
         return response.text
-    
+
+    async def to_text(self, speech: bytes) -> str:
+        request = ToTextRequest(name=self.name, speech=speech)
+        response: ToTextResponse = await self.client.ToText(request)
+        return response.text
+
+    async def to_speech(self, text: str) -> bytes:
+        request = ToSpeechRequest(name=self.name, text=text)
+        response: ToSpeechResponse = await self.client.ToSpeech(request)
+        return response.speech
+     
     async def completion(self, text: str, blocking: bool) -> str:
         request = CompletionRequest(name=self.name, text=text, blocking=blocking)
         response: CompletionResponse = await self.client.Completion(request)

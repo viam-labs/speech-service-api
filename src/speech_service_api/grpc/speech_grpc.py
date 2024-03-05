@@ -20,6 +20,14 @@ class SpeechServiceBase(abc.ABC):
         pass
 
     @abc.abstractmethod
+    async def ToText(self, stream: 'grpclib.server.Stream[speech_pb2.ToTextRequest, speech_pb2.ToTextResponse]') -> None:
+        pass
+
+    @abc.abstractmethod
+    async def ToSpeech(self, stream: 'grpclib.server.Stream[speech_pb2.ToSpeechRequest, speech_pb2.ToSpeechResponse]') -> None:
+        pass
+
+    @abc.abstractmethod
     async def Completion(self, stream: 'grpclib.server.Stream[speech_pb2.CompletionRequest, speech_pb2.CompletionResponse]') -> None:
         pass
 
@@ -42,6 +50,18 @@ class SpeechServiceBase(abc.ABC):
                 grpclib.const.Cardinality.UNARY_UNARY,
                 speech_pb2.SayRequest,
                 speech_pb2.SayResponse,
+            ),
+            '/viamlabs.service.speech.v1.SpeechService/ToText': grpclib.const.Handler(
+                self.ToText,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                speech_pb2.ToTextRequest,
+                speech_pb2.ToTextResponse,
+            ),
+            '/viamlabs.service.speech.v1.SpeechService/ToSpeech': grpclib.const.Handler(
+                self.ToSpeech,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                speech_pb2.ToSpeechRequest,
+                speech_pb2.ToSpeechResponse,
             ),
             '/viamlabs.service.speech.v1.SpeechService/Completion': grpclib.const.Handler(
                 self.Completion,
@@ -78,6 +98,18 @@ class SpeechServiceStub:
             '/viamlabs.service.speech.v1.SpeechService/Say',
             speech_pb2.SayRequest,
             speech_pb2.SayResponse,
+        )
+        self.ToText = grpclib.client.UnaryUnaryMethod(
+            channel,
+            '/viamlabs.service.speech.v1.SpeechService/ToText',
+            speech_pb2.ToTextRequest,
+            speech_pb2.ToTextResponse,
+        )
+        self.ToSpeech = grpclib.client.UnaryUnaryMethod(
+            channel,
+            '/viamlabs.service.speech.v1.SpeechService/ToSpeech',
+            speech_pb2.ToSpeechRequest,
+            speech_pb2.ToSpeechResponse,
         )
         self.Completion = grpclib.client.UnaryUnaryMethod(
             channel,

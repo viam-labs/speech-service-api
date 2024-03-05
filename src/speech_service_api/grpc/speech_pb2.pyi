@@ -53,6 +53,72 @@ class SayResponse(google.protobuf.message.Message):
 global___SayResponse = SayResponse
 
 @typing_extensions.final
+class ToTextRequest(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    NAME_FIELD_NUMBER: builtins.int
+    SPEECH_FIELD_NUMBER: builtins.int
+    name: builtins.str
+    speech: builtins.bytes
+    def __init__(
+        self,
+        *,
+        name: builtins.str = ...,
+        speech: builtins.bytes = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["name", b"name", "speech", b"speech"]) -> None: ...
+
+global___ToTextRequest = ToTextRequest
+
+@typing_extensions.final
+class ToTextResponse(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    TEXT_FIELD_NUMBER: builtins.int
+    text: builtins.str
+    def __init__(
+        self,
+        *,
+        text: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["text", b"text"]) -> None: ...
+
+global___ToTextResponse = ToTextResponse
+
+@typing_extensions.final
+class ToSpeechRequest(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    NAME_FIELD_NUMBER: builtins.int
+    TEXT_FIELD_NUMBER: builtins.int
+    name: builtins.str
+    text: builtins.str
+    def __init__(
+        self,
+        *,
+        name: builtins.str = ...,
+        text: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["name", b"name", "text", b"text"]) -> None: ...
+
+global___ToSpeechRequest = ToSpeechRequest
+
+@typing_extensions.final
+class ToSpeechResponse(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    SPEECH_FIELD_NUMBER: builtins.int
+    speech: builtins.bytes
+    def __init__(
+        self,
+        *,
+        speech: builtins.bytes = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["speech", b"speech"]) -> None: ...
+
+global___ToSpeechResponse = ToSpeechResponse
+
+@typing_extensions.final
 class CompletionRequest(google.protobuf.message.Message):
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
