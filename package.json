@@ -17,5 +17,8 @@
     "grpc-tools": "^1.12.4",
     "protobufjs": "^7.2.6",
     "protoc-gen-js": "^3.21.2"
+  },
+  "dependencies": {
+    "@viamrobotics/sdk": "github:viamrobotics/viam-typescript-sdk"
   }
 }
