@@ -19,3 +19,12 @@ plugins:
     opt:
       - paths=source_relative
       - generate_unbound_methods=true
+  - name: js
+    out: speech_service_api_js/grpc
+    opt:
+      - import_style=commonjs
+  - name: grpc-web
+    out: speech_service_api_js/grpc
+    opt:
+      - import_style=commonjs
+      - mode=grpcwebtext

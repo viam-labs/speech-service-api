@@ -163,3 +163,4 @@ cython_debug/
 .pyprojectx/
 
 my_file.mp3
+node_modules

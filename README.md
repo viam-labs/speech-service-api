@@ -96,3 +96,10 @@ To rebuild the gRPC bindings run:
 ```
 make generate
 ```
+
+You will need to ensure you have protobuf, protoc-gen-go-grpc, and protoc-gen-grpc-web installed.
+You may also may need to install protoc-gen-js globally:
+
+```bqsh
+npm install -g protoc-gen-js
+```
