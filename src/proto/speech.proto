@@ -4,6 +4,8 @@ package viamlabs.service.speech.v1;
 
 import "google/api/annotations.proto";
 
+option go_package = "./speech-api";
+
 service SpeechService {
   rpc Say(SayRequest) returns (SayResponse) {
     option (google.api.http) = {
