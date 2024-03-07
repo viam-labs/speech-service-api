@@ -1,1 +1,1 @@
-export { type SpeechClient } from './api';
+export { SpeechClient } from './api';
