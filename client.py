@@ -1,7 +1,7 @@
 import asyncio
 import os
  
-from speech_service_api import SpeechService
+from src.speech_service_api import SpeechService
 
 from viam.logging import getLogger
 from viam.robot.client import RobotClient

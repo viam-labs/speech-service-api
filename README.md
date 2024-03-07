@@ -93,13 +93,13 @@ This project is bootstrapped with [Pyprojectx](https://github.com/pyprojectx/pyp
 
 To rebuild the gRPC bindings run:
 
-```
+``` bash
 make generate
 ```
 
 You will need to ensure you have protobuf, protoc-gen-go-grpc, and protoc-gen-grpc-web installed.
 You may also may need to install protoc-gen-js globally:
 
-```bqsh
+```bash
 npm install -g protoc-gen-js
 ```
