@@ -1,6 +1,6 @@
 [project]
 name = "speech_service_api"
-version = "0.2.0"
+version = "0.2.1"
 description = "Viam modular service API that provides chat response capabilities"
 authors = [
     {name = "Nick Hehr", email = "nick.hehr@viam.com"},
