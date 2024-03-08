@@ -39,7 +39,7 @@ export class SpeechClient implements Speech {
       pb.SayResponse
     >(service.say.bind(service), request);
 
-    return response;
+    return response.getText();
   }
 
   async toText(speech: Uint8Array) {
@@ -56,7 +56,7 @@ export class SpeechClient implements Speech {
       pb.ToTextResponse
     >(service.toText.bind(service), request);
 
-    return response;
+    return response.getText();
   }
 
   async toSpeech(text: string) {
@@ -73,7 +73,7 @@ export class SpeechClient implements Speech {
       pb.ToSpeechResponse
     >(service.toSpeech.bind(service), request);
 
-    return response;
+    return response.getSpeech_asU8();
   }
 
   async completion(text: string, blocking: boolean) {
@@ -91,7 +91,7 @@ export class SpeechClient implements Speech {
       pb.CompletionResponse
     >(service.completion.bind(service), request);
 
-    return response;
+    return response.getText();
   }
 
   async getCommands(number: number) {
@@ -108,7 +108,7 @@ export class SpeechClient implements Speech {
       pb.GetCommandsResponse
     >(service.getCommands.bind(service), request);
 
-    return response;
+    return response.getCommandsList();
   }
 
   async listenTrigger(type: string) {
@@ -125,7 +125,7 @@ export class SpeechClient implements Speech {
       pb.ListenTriggerResponse
     >(service.listenTrigger.bind(service), request);
 
-    return response;
+    return response.getText();
   }
 
   async isSpeaking() {
@@ -141,7 +141,11 @@ export class SpeechClient implements Speech {
       pb.IsSpeakingResponse
     >(service.isSpeaking.bind(service), request);
 
-    return response;
+    return response.getStatus();
   }
 
+  async doCommand(command: Viam.StructType): Promise<Viam.StructType> {
+    const { speechService } = this;
+    return Viam.doCommandFromClient(speechService, this.name, command, this.options);
+  }
 }
