@@ -58,7 +58,7 @@ You can now import and use it in your code as follows:
 ``` python
 from speech_service_api import SpeechService
 speech = SpeechService.from_robot(robot, name="speech")
-speech.say(...)
+speech.say("hello", true)
 ```
 
 See client.py for an example.
@@ -72,10 +72,26 @@ import speech "github.com/viam-labs/speech-service-api/src/speech_service_api_go
 
 sp, err := speech.FromRobot(robot, "speechio")
 fmt.Println("err", err)
-sp.Say(context.Background(), "hello")
+sp.Say(context.Background(), "hello", true)
 ```
 
 See client.go for an example.
+
+## Using speech with the Typescript SDK
+
+Because this module uses a custom protobuf-based API, you must include this project in your client code.  One way to do this is to include it in your package.json as follows:
+
+``` txt
+"speech-service-api": "github:viam-labs/speech-service-api",
+```
+
+It is recommended that you include a tag at the end of the github import.
+You can now use it in your code as follows:
+
+``` javascript
+const speech = new SpeechClient(client, "speechio");
+await speech.say("hello", true);
+```
 
 ## Troubleshooting
 
