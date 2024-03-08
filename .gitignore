@@ -163,3 +163,6 @@ cython_debug/
 .pyprojectx/
 
 my_file.mp3
+node_modules
+src/speech_service_api/grpc/google/
+src/speech_service_api_go/grpc/google/

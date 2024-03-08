@@ -1,0 +1,1 @@
+export { SpeechClient } from './api';

@@ -1,0 +1,26 @@
+{
+  "name": "speech-service-api",
+  "version": "0.2.0",
+  "main": "src/speech_service_api_js/main.ts",
+  "description": "Viam Labs speech service API",
+  "directories": {
+    "example": "examples",
+    "test": "tests"
+  },
+  "scripts": {},
+  "author": "",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@bufbuild/buf": "^1.29.0",
+    "@grpc/grpc-js": "^1.10.1",
+    "@types/google-protobuf": "^3.15.12",
+    "google-protobuf": "^3.21.2",
+    "grpc-tools": "^1.12.4",
+    "protobufjs": "^7.2.6",
+    "protoc-gen-js": "^3.21.2"
+  },
+  "dependencies": {
+    "@viamrobotics/sdk": "^0.11.1-next.0",
+    "googleapis": "^133.0.0"
+  }
+}

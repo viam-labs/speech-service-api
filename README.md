@@ -61,7 +61,21 @@ speech = SpeechService.from_robot(robot, name="speech")
 speech.say(...)
 ```
 
-For now, the protobuf bindings are only generated for Python.
+See client.py for an example.
+
+## Using speech with the Golang SDK
+
+Because this module uses a custom protobuf-based API, you must import and use in your client code as follows:
+
+``` go
+import speech "github.com/viam-labs/speech-service-api/src/speech_service_api_go"
+
+sp, err := speech.FromRobot(robot, "speechio")
+fmt.Println("err", err)
+sp.Say(context.Background(), "hello")
+```
+
+See client.go for an example.
 
 ## Troubleshooting
 
@@ -93,6 +107,13 @@ This project is bootstrapped with [Pyprojectx](https://github.com/pyprojectx/pyp
 
 To rebuild the gRPC bindings run:
 
-```
+``` bash
 make generate
+```
+
+You will need to ensure you have protobuf, protoc-gen-go-grpc, and protoc-gen-grpc-web installed.
+You may also may need to install protoc-gen-js globally:
+
+```bash
+npm install -g protoc-gen-js
 ```
