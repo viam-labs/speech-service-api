@@ -1,5 +1,5 @@
 [project]
-name = "speech_service_api"
+name = "speech-service-api"
 version = "0.2.1"
 description = "Viam modular service API that provides chat response capabilities"
 authors = [
