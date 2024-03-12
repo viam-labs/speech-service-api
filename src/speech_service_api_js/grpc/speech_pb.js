@@ -684,7 +684,8 @@ proto.viamlabs.service.speech.v1.ToTextRequest.prototype.toObject = function(opt
 proto.viamlabs.service.speech.v1.ToTextRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     name: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    speech: msg.getSpeech_asB64()
+    speech: msg.getSpeech_asB64(),
+    format: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -729,6 +730,10 @@ proto.viamlabs.service.speech.v1.ToTextRequest.deserializeBinaryFromReader = fun
       var value = /** @type {!Uint8Array} */ (reader.readBytes());
       msg.setSpeech(value);
       break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setFormat(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -769,6 +774,13 @@ proto.viamlabs.service.speech.v1.ToTextRequest.serializeBinaryToWriter = functio
   if (f.length > 0) {
     writer.writeBytes(
       2,
+      f
+    );
+  }
+  f = message.getFormat();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
       f
     );
   }
@@ -832,6 +844,24 @@ proto.viamlabs.service.speech.v1.ToTextRequest.prototype.getSpeech_asU8 = functi
  */
 proto.viamlabs.service.speech.v1.ToTextRequest.prototype.setSpeech = function(value) {
   return jspb.Message.setProto3BytesField(this, 2, value);
+};
+
+
+/**
+ * optional string format = 3;
+ * @return {string}
+ */
+proto.viamlabs.service.speech.v1.ToTextRequest.prototype.getFormat = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.viamlabs.service.speech.v1.ToTextRequest} returns this
+ */
+proto.viamlabs.service.speech.v1.ToTextRequest.prototype.setFormat = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 

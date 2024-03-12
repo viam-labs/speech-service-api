@@ -58,15 +58,18 @@ class ToTextRequest(google.protobuf.message.Message):
 
     NAME_FIELD_NUMBER: builtins.int
     SPEECH_FIELD_NUMBER: builtins.int
+    FORMAT_FIELD_NUMBER: builtins.int
     name: builtins.str
     speech: builtins.bytes
+    format: builtins.str
     def __init__(
         self,
         *,
         name: builtins.str = ...,
         speech: builtins.bytes = ...,
+        format: builtins.str = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["name", b"name", "speech", b"speech"]) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["format", b"format", "name", b"name", "speech", b"speech"]) -> None: ...
 
 global___ToTextRequest = ToTextRequest
 

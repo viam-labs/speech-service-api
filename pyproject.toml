@@ -17,7 +17,7 @@ requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
 [tool.pdm.resolution.overrides]
-viam-sdk = "0.13.2"
+viam-sdk = "0.15.0"
 grpclib = "0.4.7"
 
 [tool.pyprojectx]
@@ -26,3 +26,7 @@ main = ["pdm"]
 [tool.pdm]
 distribution = true
 
+[tool.pdm.dev-dependencies]
+dev = [
+    "mypy-protobuf>=3.5.0",
+]

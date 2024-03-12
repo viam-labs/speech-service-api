@@ -1,4 +1,3 @@
-import { Struct } from 'google-protobuf/google/protobuf/struct_pb';
 import pb from './grpc/speech_pb';
 import { SpeechServiceClient } from './grpc/speech_pb_service';
 import * as Viam from '@viamrobotics/sdk';
@@ -42,12 +41,13 @@ export class SpeechClient implements Speech {
     return response.getText();
   }
 
-  async toText(speech: Uint8Array) {
+  async toText(speech: Uint8Array, format: string) {
     const { service } = this;
 
     const request = new pb.ToTextRequest();
     request.setName(this.name);
     request.setSpeech(speech);
+    request.setFormat(format)
 
     this.options.requestLogger?.(request);
 

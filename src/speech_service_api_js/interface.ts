@@ -22,6 +22,7 @@ export interface Speech extends Viam.Resource {
    */
     toText: (
         speech: Uint8Array,
+        format: string,
     ) => Promise<string>;
 
    /**
