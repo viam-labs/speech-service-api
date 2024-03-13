@@ -1,34 +1,34 @@
 version: v1
 plugins:
-  - name: python
+  - plugin: buf.build/protocolbuffers/python
     out: speech_service_api/grpc
   - name: grpclib_python
     out: speech_service_api/grpc
-  - name: mypy
+  - plugin: buf.build/community/nipunn1313-mypy
     out: speech_service_api/grpc
-  - name: go
+  - plugin: buf.build/protocolbuffers/go
     out: speech_service_api_go/grpc
     opt:
       - paths=source_relative
-  - name: go-grpc
+  - plugin: buf.build/grpc/go
     out: speech_service_api_go/grpc
     opt:
       - paths=source_relative
-  - name: grpc-gateway
+  - plugin: buf.build/grpc-ecosystem/gateway
     out: speech_service_api_go/grpc
     opt:
       - paths=source_relative
       - generate_unbound_methods=true
-  - name: js
+  - plugin: js
     out: speech_service_api_js/grpc
     opt:
       - import_style=commonjs
-  - name: grpc-web
+  - plugin: grpc-web
     out: speech_service_api_js/grpc
     opt:
       - import_style=commonjs
       - mode=grpcwebtext
-  - name: ts
+  - plugin: ts
     out: speech_service_api_js/grpc
     opt:
       - service=grpc-web
