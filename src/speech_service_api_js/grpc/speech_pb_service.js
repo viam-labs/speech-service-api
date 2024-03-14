@@ -64,6 +64,15 @@ SpeechService.ListenTrigger = {
   responseType: speech_pb.ListenTriggerResponse
 };
 
+SpeechService.Listen = {
+  methodName: "Listen",
+  service: SpeechService,
+  requestStream: false,
+  responseStream: false,
+  requestType: speech_pb.ListenRequest,
+  responseType: speech_pb.ListenResponse
+};
+
 SpeechService.IsSpeaking = {
   methodName: "IsSpeaking",
   service: SpeechService,
@@ -240,6 +249,37 @@ SpeechServiceClient.prototype.listenTrigger = function listenTrigger(requestMess
     callback = arguments[1];
   }
   var client = grpc.unary(SpeechService.ListenTrigger, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+SpeechServiceClient.prototype.listen = function listen(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(SpeechService.Listen, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

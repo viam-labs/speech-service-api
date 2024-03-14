@@ -66,6 +66,14 @@ export interface Speech extends Viam.Resource {
     listenTrigger: (
         type: string,
     ) => Promise<string>;
+
+   /**
+   * Listen for speech and return processed text
+   *
+   * @returns - string of detected text
+   */
+   listen: (
+    ) => Promise<string>;
    
    /**
    * Is the speech service current speaking out loud?

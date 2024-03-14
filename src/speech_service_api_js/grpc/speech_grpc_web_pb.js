@@ -448,6 +448,67 @@ proto.viamlabs.service.speech.v1.SpeechServicePromiseClient.prototype.listenTrig
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
+ *   !proto.viamlabs.service.speech.v1.ListenRequest,
+ *   !proto.viamlabs.service.speech.v1.ListenResponse>}
+ */
+const methodDescriptor_SpeechService_Listen = new grpc.web.MethodDescriptor(
+  '/viamlabs.service.speech.v1.SpeechService/Listen',
+  grpc.web.MethodType.UNARY,
+  proto.viamlabs.service.speech.v1.ListenRequest,
+  proto.viamlabs.service.speech.v1.ListenResponse,
+  /**
+   * @param {!proto.viamlabs.service.speech.v1.ListenRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.viamlabs.service.speech.v1.ListenResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.viamlabs.service.speech.v1.ListenRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.viamlabs.service.speech.v1.ListenResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.viamlabs.service.speech.v1.ListenResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.viamlabs.service.speech.v1.SpeechServiceClient.prototype.listen =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/viamlabs.service.speech.v1.SpeechService/Listen',
+      request,
+      metadata || {},
+      methodDescriptor_SpeechService_Listen,
+      callback);
+};
+
+
+/**
+ * @param {!proto.viamlabs.service.speech.v1.ListenRequest} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.viamlabs.service.speech.v1.ListenResponse>}
+ *     Promise that resolves to the response
+ */
+proto.viamlabs.service.speech.v1.SpeechServicePromiseClient.prototype.listen =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/viamlabs.service.speech.v1.SpeechService/Listen',
+      request,
+      metadata || {},
+      methodDescriptor_SpeechService_Listen);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
  *   !proto.viamlabs.service.speech.v1.IsSpeakingRequest,
  *   !proto.viamlabs.service.speech.v1.IsSpeakingResponse>}
  */

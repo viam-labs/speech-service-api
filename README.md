@@ -41,6 +41,10 @@ This enables voice-activated programmatic control of the robot.
 The next phrase heard will trigger *say*, *completion* or *command*, depending on the trigger_type passed in.
 No trigger string is required, but any configured trigger string will be respected.
 
+### listen()
+
+The *listen()* command starts detecting speech from an audio input, like a microphone, and returns it as text. It will return an empty string if no speech is detected.
+
 ### is_speaking()
 
 Will return True if the speech module is currently speaking.
@@ -125,11 +129,4 @@ To rebuild the gRPC bindings run:
 
 ``` bash
 make generate
-```
-
-You will need to ensure you have protobuf, protoc-gen-go-grpc, and protoc-gen-grpc-web installed.
-You may also may need to install protoc-gen-js globally:
-
-```bash
-npm install -g protoc-gen-js
 ```

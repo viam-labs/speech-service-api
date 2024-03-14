@@ -43,6 +43,12 @@ service SpeechService {
     };
   }
 
+  rpc Listen(ListenRequest) returns (ListenResponse) {
+    option (google.api.http) = {
+      post: "/viamlabs/api/v1/service/speech/{name}/listen"
+    };
+  }
+
   rpc IsSpeaking(IsSpeakingRequest) returns (IsSpeakingResponse) {
     option (google.api.http) = {
       post: "/viamlabs/api/v1/service/speech/{name}/is_speaking"
@@ -104,6 +110,14 @@ message ListenTriggerRequest {
 }
 
 message ListenTriggerResponse {
+  string text = 1;
+}
+
+message ListenRequest {
+  string name = 1;
+}
+
+message ListenResponse {
   string text = 1;
 }
 

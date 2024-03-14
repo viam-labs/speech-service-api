@@ -21,7 +21,7 @@ To see the custom implementation of this service, see the speechio.py file.
 """
 
 import abc
-from typing import Final, Literal, Sequence
+from typing import Final, Sequence
 
 from grpclib.client import Channel
 from grpclib.server import Stream
@@ -32,6 +32,8 @@ from viam.services.service_base import ServiceBase
 
 from .grpc.speech_grpc import SpeechServiceBase, SpeechServiceStub
 from .grpc.speech_pb2 import (
+    ListenRequest,
+    ListenResponse,
     SayRequest,
     SayResponse,
     ToTextRequest,
@@ -70,6 +72,9 @@ class SpeechService(ServiceBase):
 
     @abc.abstractmethod
     async def listen_trigger(self, type: str) -> Sequence[str]: ...
+
+    @abc.abstractmethod
+    async def listen(self) -> str: ...
 
     @abc.abstractmethod
     async def is_speaking(self) -> bool: ...
@@ -133,6 +138,14 @@ class SpeechRPCService(SpeechServiceBase, ResourceRPCServiceBase):
         resp = await service.listen_trigger(request.type)
         await stream.send_message(ListenTriggerResponse(text=resp))
 
+    async def Listen(self, stream: Stream[ListenRequest, ListenResponse]) -> None:
+        request = await stream.recv_message()
+        assert request is not None
+        name = request.name
+        service = self.get_resource(name)
+        resp = await service.listen()
+        await stream.send_message(ListenResponse(text=resp))
+
     async def IsSpeaking(
         self, stream: Stream[IsSpeakingRequest, IsSpeakingResponse]
     ) -> None:
@@ -179,6 +192,11 @@ class SpeechClient(SpeechService):
     async def listen_trigger(self, type: str) -> str:
         request = ListenTriggerRequest(name=self.name, type=type)
         response: ListenTriggerResponse = await self.client.ListenTrigger(request)
+        return response.text
+
+    async def listen(self) -> str:
+        request = ListenRequest(name=self.name)
+        response: ListenResponse = await self.client.Listen(request)
         return response.text
 
     async def is_speaking(self) -> bool:
