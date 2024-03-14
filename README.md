@@ -123,7 +123,11 @@ options snd slots=snd-usb-audio,snd_soc_meson_card_utils
 
 ## Development
 
-This project is bootstrapped with [Pyprojectx](https://github.com/pyprojectx/pyprojectx) and manages dependencies with [PDM](https://pdm-project.org/latest/#introduction) for modern Python development. The various commands for managing the project are collected under the `Makefile`.
+This project is managed by [rye](https://rye-up.com/). To initialize the development environment, follow the [installation instructions](https://rye-up.com/guide/installation/) and run:
+
+```console
+rye sync
+```
 
 To rebuild the gRPC bindings run:
 

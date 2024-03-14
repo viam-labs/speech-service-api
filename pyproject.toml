@@ -8,25 +8,10 @@ authors = [
 dependencies = [
     "viam-sdk>=0.13.2",
 ]
-requires-python = ">=3.8.2,<3.13"
+requires-python = "<3.13"
 readme = "README.md"
 license = {text = "Apache-2.0"}
 
 [build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"
-
-[tool.pdm.resolution.overrides]
-viam-sdk = "0.15.0"
-grpclib = "0.4.7"
-
-[tool.pyprojectx]
-main = ["pdm"]
-
-[tool.pdm]
-distribution = true
-
-[tool.pdm.dev-dependencies]
-dev = [
-    "mypy-protobuf>=3.5.0",
-]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
