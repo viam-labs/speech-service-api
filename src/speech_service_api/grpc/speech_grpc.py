@@ -40,6 +40,10 @@ class SpeechServiceBase(abc.ABC):
         pass
 
     @abc.abstractmethod
+    async def Listen(self, stream: 'grpclib.server.Stream[speech_pb2.ListenRequest, speech_pb2.ListenResponse]') -> None:
+        pass
+
+    @abc.abstractmethod
     async def IsSpeaking(self, stream: 'grpclib.server.Stream[speech_pb2.IsSpeakingRequest, speech_pb2.IsSpeakingResponse]') -> None:
         pass
 
@@ -80,6 +84,12 @@ class SpeechServiceBase(abc.ABC):
                 grpclib.const.Cardinality.UNARY_UNARY,
                 speech_pb2.ListenTriggerRequest,
                 speech_pb2.ListenTriggerResponse,
+            ),
+            '/viamlabs.service.speech.v1.SpeechService/Listen': grpclib.const.Handler(
+                self.Listen,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                speech_pb2.ListenRequest,
+                speech_pb2.ListenResponse,
             ),
             '/viamlabs.service.speech.v1.SpeechService/IsSpeaking': grpclib.const.Handler(
                 self.IsSpeaking,
@@ -128,6 +138,12 @@ class SpeechServiceStub:
             '/viamlabs.service.speech.v1.SpeechService/ListenTrigger',
             speech_pb2.ListenTriggerRequest,
             speech_pb2.ListenTriggerResponse,
+        )
+        self.Listen = grpclib.client.UnaryUnaryMethod(
+            channel,
+            '/viamlabs.service.speech.v1.SpeechService/Listen',
+            speech_pb2.ListenRequest,
+            speech_pb2.ListenResponse,
         )
         self.IsSpeaking = grpclib.client.UnaryUnaryMethod(
             channel,

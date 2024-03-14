@@ -52,6 +52,7 @@ type Speech interface {
 	Completion(ctx context.Context, text string, blocking bool) (string, error)
 	GetCommands(ctx context.Context, number int) ([]string, error)
 	ListenTrigger(ctx context.Context, typ string) (string, error)
+	Listen(ctx context.Context) (string, error)
 	IsSpeaking(ctx context.Context) (bool, error)
 }
 
@@ -136,6 +137,18 @@ func (s *serviceServer) ListenTrigger(ctx context.Context, req *pb.ListenTrigger
 		return nil, err
 	}
 	return &pb.ListenTriggerResponse{Text: resp}, nil
+}
+
+func (s *serviceServer) Listen(ctx context.Context, req *pb.ListenRequest) (*pb.ListenResponse, error) {
+	g, err := s.coll.Resource(req.Name)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := g.Listen(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.ListenResponse{Text: resp}, nil
 }
 
 func (s *serviceServer) IsSpeaking(ctx context.Context, req *pb.IsSpeakingRequest) (*pb.IsSpeakingResponse, error) {
@@ -246,6 +259,16 @@ func (c *client) ListenTrigger(ctx context.Context, Type string) (string, error)
 	resp, err := c.client.ListenTrigger(ctx, &pb.ListenTriggerRequest{
 		Name: c.name,
 		Type: Type,
+	})
+	if err != nil {
+		return "", err
+	}
+	return resp.Text, nil
+}
+
+func (c *client) Listen(ctx context.Context) (string, error) {
+	resp, err := c.client.Listen(ctx, &pb.ListenRequest{
+		Name: c.name,
 	})
 	if err != nil {
 		return "", err

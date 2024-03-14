@@ -25,6 +25,7 @@ const (
 	SpeechService_Completion_FullMethodName    = "/viamlabs.service.speech.v1.SpeechService/Completion"
 	SpeechService_GetCommands_FullMethodName   = "/viamlabs.service.speech.v1.SpeechService/GetCommands"
 	SpeechService_ListenTrigger_FullMethodName = "/viamlabs.service.speech.v1.SpeechService/ListenTrigger"
+	SpeechService_Listen_FullMethodName        = "/viamlabs.service.speech.v1.SpeechService/Listen"
 	SpeechService_IsSpeaking_FullMethodName    = "/viamlabs.service.speech.v1.SpeechService/IsSpeaking"
 )
 
@@ -38,6 +39,7 @@ type SpeechServiceClient interface {
 	Completion(ctx context.Context, in *CompletionRequest, opts ...grpc.CallOption) (*CompletionResponse, error)
 	GetCommands(ctx context.Context, in *GetCommandsRequest, opts ...grpc.CallOption) (*GetCommandsResponse, error)
 	ListenTrigger(ctx context.Context, in *ListenTriggerRequest, opts ...grpc.CallOption) (*ListenTriggerResponse, error)
+	Listen(ctx context.Context, in *ListenRequest, opts ...grpc.CallOption) (*ListenResponse, error)
 	IsSpeaking(ctx context.Context, in *IsSpeakingRequest, opts ...grpc.CallOption) (*IsSpeakingResponse, error)
 }
 
@@ -103,6 +105,15 @@ func (c *speechServiceClient) ListenTrigger(ctx context.Context, in *ListenTrigg
 	return out, nil
 }
 
+func (c *speechServiceClient) Listen(ctx context.Context, in *ListenRequest, opts ...grpc.CallOption) (*ListenResponse, error) {
+	out := new(ListenResponse)
+	err := c.cc.Invoke(ctx, SpeechService_Listen_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *speechServiceClient) IsSpeaking(ctx context.Context, in *IsSpeakingRequest, opts ...grpc.CallOption) (*IsSpeakingResponse, error) {
 	out := new(IsSpeakingResponse)
 	err := c.cc.Invoke(ctx, SpeechService_IsSpeaking_FullMethodName, in, out, opts...)
@@ -122,6 +133,7 @@ type SpeechServiceServer interface {
 	Completion(context.Context, *CompletionRequest) (*CompletionResponse, error)
 	GetCommands(context.Context, *GetCommandsRequest) (*GetCommandsResponse, error)
 	ListenTrigger(context.Context, *ListenTriggerRequest) (*ListenTriggerResponse, error)
+	Listen(context.Context, *ListenRequest) (*ListenResponse, error)
 	IsSpeaking(context.Context, *IsSpeakingRequest) (*IsSpeakingResponse, error)
 	mustEmbedUnimplementedSpeechServiceServer()
 }
@@ -147,6 +159,9 @@ func (UnimplementedSpeechServiceServer) GetCommands(context.Context, *GetCommand
 }
 func (UnimplementedSpeechServiceServer) ListenTrigger(context.Context, *ListenTriggerRequest) (*ListenTriggerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListenTrigger not implemented")
+}
+func (UnimplementedSpeechServiceServer) Listen(context.Context, *ListenRequest) (*ListenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Listen not implemented")
 }
 func (UnimplementedSpeechServiceServer) IsSpeaking(context.Context, *IsSpeakingRequest) (*IsSpeakingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsSpeaking not implemented")
@@ -272,6 +287,24 @@ func _SpeechService_ListenTrigger_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SpeechService_Listen_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SpeechServiceServer).Listen(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SpeechService_Listen_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SpeechServiceServer).Listen(ctx, req.(*ListenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SpeechService_IsSpeaking_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(IsSpeakingRequest)
 	if err := dec(in); err != nil {
@@ -320,6 +353,10 @@ var SpeechService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListenTrigger",
 			Handler:    _SpeechService_ListenTrigger_Handler,
+		},
+		{
+			MethodName: "Listen",
+			Handler:    _SpeechService_Listen_Handler,
 		},
 		{
 			MethodName: "IsSpeaking",

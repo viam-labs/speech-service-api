@@ -128,6 +128,22 @@ export class SpeechClient implements Speech {
     return response.getText();
   }
 
+  async listen() {
+    const { service } = this;
+
+    const request = new pb.ListenRequest();
+    request.setName(this.name);
+
+    this.options.requestLogger?.(request);
+
+    const response = await Viam.promisify<
+      pb.ListenRequest,
+      pb.ListenResponse
+    >(service.listen.bind(service), request);
+
+    return response.getText();
+  }
+
   async isSpeaking() {
     const { service } = this;
 
@@ -144,8 +160,7 @@ export class SpeechClient implements Speech {
     return response.getStatus();
   }
 
-  async doCommand(command: Viam.StructType): Promise<Viam.StructType> {
-    const { speechService } = this;
-    return Viam.doCommandFromClient(speechService, this.name, command, this.options);
+  async doCommand(_command: Viam.StructType): Promise<Viam.StructType> {
+    return {}
   }
 }

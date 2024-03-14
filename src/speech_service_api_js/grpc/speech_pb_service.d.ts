@@ -58,6 +58,15 @@ type SpeechServiceListenTrigger = {
   readonly responseType: typeof speech_pb.ListenTriggerResponse;
 };
 
+type SpeechServiceListen = {
+  readonly methodName: string;
+  readonly service: typeof SpeechService;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof speech_pb.ListenRequest;
+  readonly responseType: typeof speech_pb.ListenResponse;
+};
+
 type SpeechServiceIsSpeaking = {
   readonly methodName: string;
   readonly service: typeof SpeechService;
@@ -75,6 +84,7 @@ export class SpeechService {
   static readonly Completion: SpeechServiceCompletion;
   static readonly GetCommands: SpeechServiceGetCommands;
   static readonly ListenTrigger: SpeechServiceListenTrigger;
+  static readonly Listen: SpeechServiceListen;
   static readonly IsSpeaking: SpeechServiceIsSpeaking;
 }
 
@@ -163,6 +173,15 @@ export class SpeechServiceClient {
   listenTrigger(
     requestMessage: speech_pb.ListenTriggerRequest,
     callback: (error: ServiceError|null, responseMessage: speech_pb.ListenTriggerResponse|null) => void
+  ): UnaryResponse;
+  listen(
+    requestMessage: speech_pb.ListenRequest,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: speech_pb.ListenResponse|null) => void
+  ): UnaryResponse;
+  listen(
+    requestMessage: speech_pb.ListenRequest,
+    callback: (error: ServiceError|null, responseMessage: speech_pb.ListenResponse|null) => void
   ): UnaryResponse;
   isSpeaking(
     requestMessage: speech_pb.IsSpeakingRequest,
