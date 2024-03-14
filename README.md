@@ -15,13 +15,13 @@ It returns a string response, which is the string that was passed in to the *say
 
 If blocking is set to True, will wait until the speech is said to return.
 
-### to_text(*bytes*)
+### to_text(*bytes*, format=*string*)
 
-The *to_text()* command takes bytes of an mp3 audio file, and returns extracted text as a string response.
+The *to_text()* command takes bytes and the format (`wav | mp3 | mp4 | aac | flv | ogg`) of an audio file, and returns extracted text as a string response.
 
 ### to_speech(*string*)
 
-The *to_text()* command takes a string of text, and returns bytes of an audio speech file.
+The *to_speech()* command takes a string of text, and returns bytes of an audio speech file.
 
 ### completion(*string*, blocking=*bool*)
 

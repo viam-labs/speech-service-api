@@ -32,7 +32,7 @@ var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
 var (
-	filter_SpeechService_Say_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 2, 0, 0}, Check: []int{0, 1, 2, 2}}
+	filter_SpeechService_Say_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 )
 
 func request_SpeechService_Say_0(ctx context.Context, marshaler runtime.Marshaler, client SpeechServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -102,7 +102,7 @@ func local_request_SpeechService_Say_0(ctx context.Context, marshaler runtime.Ma
 }
 
 var (
-	filter_SpeechService_ToText_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 2, 0, 0}, Check: []int{0, 1, 2, 2}}
+	filter_SpeechService_ToText_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 )
 
 func request_SpeechService_ToText_0(ctx context.Context, marshaler runtime.Marshaler, client SpeechServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -172,7 +172,7 @@ func local_request_SpeechService_ToText_0(ctx context.Context, marshaler runtime
 }
 
 var (
-	filter_SpeechService_ToSpeech_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 2, 0, 0}, Check: []int{0, 1, 2, 2}}
+	filter_SpeechService_ToSpeech_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 )
 
 func request_SpeechService_ToSpeech_0(ctx context.Context, marshaler runtime.Marshaler, client SpeechServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -242,7 +242,7 @@ func local_request_SpeechService_ToSpeech_0(ctx context.Context, marshaler runti
 }
 
 var (
-	filter_SpeechService_Completion_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 2, 0, 0}, Check: []int{0, 1, 2, 2}}
+	filter_SpeechService_Completion_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 )
 
 func request_SpeechService_Completion_0(ctx context.Context, marshaler runtime.Marshaler, client SpeechServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -312,7 +312,7 @@ func local_request_SpeechService_Completion_0(ctx context.Context, marshaler run
 }
 
 var (
-	filter_SpeechService_GetCommands_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 2, 0, 0}, Check: []int{0, 1, 2, 2}}
+	filter_SpeechService_GetCommands_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 )
 
 func request_SpeechService_GetCommands_0(ctx context.Context, marshaler runtime.Marshaler, client SpeechServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -382,7 +382,7 @@ func local_request_SpeechService_GetCommands_0(ctx context.Context, marshaler ru
 }
 
 var (
-	filter_SpeechService_ListenTrigger_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 2, 0, 0}, Check: []int{0, 1, 2, 2}}
+	filter_SpeechService_ListenTrigger_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 )
 
 func request_SpeechService_ListenTrigger_0(ctx context.Context, marshaler runtime.Marshaler, client SpeechServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {

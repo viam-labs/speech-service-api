@@ -63,6 +63,7 @@ message SayResponse {
 message ToTextRequest {
   string name = 1;
   bytes speech = 2;
+  string format = 3;
 }
 
 message ToTextResponse {

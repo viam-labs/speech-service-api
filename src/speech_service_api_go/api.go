@@ -47,7 +47,7 @@ func init() {
 type Speech interface {
 	resource.Resource
 	Say(ctx context.Context, text string, blocking bool) (string, error)
-	ToText(ctx context.Context, speech []byte) (string, error)
+	ToText(ctx context.Context, speech []byte, format string) (string, error)
 	ToSpeech(ctx context.Context, text string) ([]byte, error)
 	Completion(ctx context.Context, text string, blocking bool) (string, error)
 	GetCommands(ctx context.Context, number int) ([]string, error)
@@ -83,7 +83,7 @@ func (s *serviceServer) ToText(ctx context.Context, req *pb.ToTextRequest) (*pb.
 	if err != nil {
 		return nil, err
 	}
-	resp, err := g.ToText(ctx, req.Speech)
+	resp, err := g.ToText(ctx, req.Speech, req.Format)
 	if err != nil {
 		return nil, err
 	}
@@ -196,10 +196,11 @@ func (c *client) Say(ctx context.Context, Text string, Blocking bool) (string, e
 	return resp.Text, nil
 }
 
-func (c *client) ToText(ctx context.Context, Speech []byte) (string, error) {
+func (c *client) ToText(ctx context.Context, Speech []byte, Format string) (string, error) {
 	resp, err := c.client.ToText(ctx, &pb.ToTextRequest{
 		Name:   c.name,
 		Speech: Speech,
+		Format: Format,
 	})
 	if err != nil {
 		return "", err

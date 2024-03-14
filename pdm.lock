@@ -2,10 +2,10 @@
 # It is not intended for manual editing.
 
 [metadata]
-groups = ["default"]
+groups = ["default", "dev"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:269f6ce1b20c2b967c497b398912c024b53d4c11e3f5706062e60b9051335ebe"
+content_hash = "sha256:3bba92433bc31ff845d3ae522b2274d3f509671ce1416aaab51cebdbe106edaa"
 
 [[package]]
 name = "googleapis-common-protos"
@@ -143,6 +143,21 @@ files = [
 ]
 
 [[package]]
+name = "mypy-protobuf"
+version = "3.5.0"
+requires_python = ">=3.8"
+summary = "Generate mypy stub files from protobuf specs"
+groups = ["dev"]
+dependencies = [
+    "protobuf>=4.23.4",
+    "types-protobuf>=4.23.0.2",
+]
+files = [
+    {file = "mypy-protobuf-3.5.0.tar.gz", hash = "sha256:21f270da0a9792a9dac76b0df463c027e561664ab6973c59be4e4d064dfe67dc"},
+    {file = "mypy_protobuf-3.5.0-py3-none-any.whl", hash = "sha256:0d0548c6b9a6faf14ce1a9ce2831c403a5c1f2a9363e85b1e2c51d5d57aa8393"},
+]
+
+[[package]]
 name = "pillow"
 version = "10.2.0"
 requires_python = ">=3.8"
@@ -224,7 +239,7 @@ name = "protobuf"
 version = "4.25.2"
 requires_python = ">=3.8"
 summary = ""
-groups = ["default"]
+groups = ["default", "dev"]
 files = [
     {file = "protobuf-4.25.2-cp310-abi3-win32.whl", hash = "sha256:b50c949608682b12efb0b2717f53256f03636af5f60ac0c1d900df6213910fd6"},
     {file = "protobuf-4.25.2-cp310-abi3-win_amd64.whl", hash = "sha256:8f62574857ee1de9f770baf04dde4165e30b15ad97ba03ceac65f760ff018ac9"},
@@ -237,6 +252,17 @@ files = [
     {file = "protobuf-4.25.2-cp39-cp39-win_amd64.whl", hash = "sha256:d66a769b8d687df9024f2985d5137a337f957a0916cf5464d1513eee96a63ff0"},
     {file = "protobuf-4.25.2-py3-none-any.whl", hash = "sha256:a8b7a98d4ce823303145bf3c1a8bdb0f2f4642a414b196f04ad9853ed0c8f830"},
     {file = "protobuf-4.25.2.tar.gz", hash = "sha256:fe599e175cb347efc8ee524bcd4b902d11f7262c0e569ececcb89995c15f0a5e"},
+]
+
+[[package]]
+name = "types-protobuf"
+version = "4.24.0.20240311"
+requires_python = ">=3.8"
+summary = "Typing stubs for protobuf"
+groups = ["dev"]
+files = [
+    {file = "types-protobuf-4.24.0.20240311.tar.gz", hash = "sha256:c80426f9fb9b21aee514691e96ab32a5cd694a82e2ac07964b352c3e7e0182bc"},
+    {file = "types_protobuf-4.24.0.20240311-py3-none-any.whl", hash = "sha256:8e039486df058141cb221ab99f88c5878c08cca4376db1d84f63279860aa09cd"},
 ]
 
 [[package]]

@@ -21,7 +21,7 @@ To see the custom implementation of this service, see the speechio.py file.
 """
 
 import abc
-from typing import Final, Sequence
+from typing import Final, Literal, Sequence
 
 from grpclib.client import Channel
 from grpclib.server import Stream
@@ -31,7 +31,22 @@ from viam.resource.types import RESOURCE_TYPE_SERVICE, Subtype
 from viam.services.service_base import ServiceBase
 
 from .grpc.speech_grpc import SpeechServiceBase, SpeechServiceStub
-from .grpc.speech_pb2 import SayRequest, SayResponse, ToTextRequest, ToTextResponse, ToSpeechRequest, ToSpeechResponse, CompletionRequest, CompletionResponse, GetCommandsRequest, GetCommandsResponse, ListenTriggerRequest, ListenTriggerResponse, IsSpeakingRequest, IsSpeakingResponse
+from .grpc.speech_pb2 import (
+    SayRequest,
+    SayResponse,
+    ToTextRequest,
+    ToTextResponse,
+    ToSpeechRequest,
+    ToSpeechResponse,
+    CompletionRequest,
+    CompletionResponse,
+    GetCommandsRequest,
+    GetCommandsResponse,
+    ListenTriggerRequest,
+    ListenTriggerResponse,
+    IsSpeakingRequest,
+    IsSpeakingResponse,
+)
 
 
 class SpeechService(ServiceBase):
@@ -39,32 +54,26 @@ class SpeechService(ServiceBase):
     SUBTYPE: Final = Subtype("viam-labs", RESOURCE_TYPE_SERVICE, "speech")
 
     @abc.abstractmethod
-    async def say(self, text: str, blocking: bool) -> str:
-        ...
+    async def say(self, text: str, blocking: bool) -> str: ...
 
     @abc.abstractmethod
-    async def to_text(self, speech: bytes) -> str:
-        ...
+    async def to_text(self, speech: bytes, format: str) -> str: ...
 
     @abc.abstractmethod
-    async def to_speech(self, text: str) -> bytes:
-        ...
+    async def to_speech(self, text: str) -> bytes: ...
 
     @abc.abstractmethod
-    async def completion(self, text: str, blocking: bool) -> str:
-        ...
+    async def completion(self, text: str, blocking: bool) -> str: ...
 
     @abc.abstractmethod
-    async def get_commands(self, number: int) -> Sequence[str]:
-        ...
+    async def get_commands(self, number: int) -> Sequence[str]: ...
 
     @abc.abstractmethod
-    async def listen_trigger(self, type: str) -> Sequence[str]:
-        ...
+    async def listen_trigger(self, type: str) -> Sequence[str]: ...
 
     @abc.abstractmethod
-    async def is_speaking(self) -> bool:
-        ...
+    async def is_speaking(self) -> bool: ...
+
 
 class SpeechRPCService(SpeechServiceBase, ResourceRPCServiceBase):
 
@@ -83,7 +92,7 @@ class SpeechRPCService(SpeechServiceBase, ResourceRPCServiceBase):
         assert request is not None
         name = request.name
         service = self.get_resource(name)
-        resp = await service.to_text(request.speech)
+        resp = await service.to_text(request.speech, request.format)
         await stream.send_message(ToTextResponse(text=resp))
 
     async def ToSpeech(self, stream: Stream[ToSpeechRequest, ToSpeechResponse]) -> None:
@@ -94,15 +103,19 @@ class SpeechRPCService(SpeechServiceBase, ResourceRPCServiceBase):
         resp = await service.to_speech(request.text)
         await stream.send_message(ToSpeechResponse(speech=resp))
 
-    async def Completion(self, stream: Stream[CompletionRequest, CompletionResponse]) -> None:
+    async def Completion(
+        self, stream: Stream[CompletionRequest, CompletionResponse]
+    ) -> None:
         request = await stream.recv_message()
         assert request is not None
         name = request.name
         service = self.get_resource(name)
         resp = await service.completion(request.text, request.blocking)
         await stream.send_message(CompletionResponse(text=resp))
-    
-    async def GetCommands(self, stream: Stream[GetCommandsRequest, GetCommandsResponse]) -> None:
+
+    async def GetCommands(
+        self, stream: Stream[GetCommandsRequest, GetCommandsResponse]
+    ) -> None:
         request = await stream.recv_message()
         assert request is not None
         name = request.name
@@ -110,7 +123,9 @@ class SpeechRPCService(SpeechServiceBase, ResourceRPCServiceBase):
         resp = await service.get_commands(request.number)
         await stream.send_message(GetCommandsResponse(commands=resp))
 
-    async def ListenTrigger(self, stream: Stream[ListenTriggerRequest, ListenTriggerResponse]) -> None:
+    async def ListenTrigger(
+        self, stream: Stream[ListenTriggerRequest, ListenTriggerResponse]
+    ) -> None:
         request = await stream.recv_message()
         assert request is not None
         name = request.name
@@ -118,13 +133,16 @@ class SpeechRPCService(SpeechServiceBase, ResourceRPCServiceBase):
         resp = await service.listen_trigger(request.type)
         await stream.send_message(ListenTriggerResponse(text=resp))
 
-    async def IsSpeaking(self, stream: Stream[IsSpeakingRequest, IsSpeakingResponse]) -> None:
+    async def IsSpeaking(
+        self, stream: Stream[IsSpeakingRequest, IsSpeakingResponse]
+    ) -> None:
         request = await stream.recv_message()
         assert request is not None
         name = request.name
         service = self.get_resource(name)
         resp = await service.is_speaking()
         await stream.send_message(IsSpeakingResponse(status=resp))
+
 
 class SpeechClient(SpeechService):
 
@@ -138,8 +156,8 @@ class SpeechClient(SpeechService):
         response: SayResponse = await self.client.Say(request)
         return response.text
 
-    async def to_text(self, speech: bytes) -> str:
-        request = ToTextRequest(name=self.name, speech=speech)
+    async def to_text(self, speech: bytes, format: str) -> str:
+        request = ToTextRequest(name=self.name, speech=speech, format=format)
         response: ToTextResponse = await self.client.ToText(request)
         return response.text
 
@@ -147,22 +165,22 @@ class SpeechClient(SpeechService):
         request = ToSpeechRequest(name=self.name, text=text)
         response: ToSpeechResponse = await self.client.ToSpeech(request)
         return response.speech
-     
+
     async def completion(self, text: str, blocking: bool) -> str:
         request = CompletionRequest(name=self.name, text=text, blocking=blocking)
         response: CompletionResponse = await self.client.Completion(request)
         return response.text
-    
+
     async def get_commands(self, number: int) -> list[str]:
         request = GetCommandsRequest(name=self.name, number=number)
         response: GetCommandsResponse = await self.client.GetCommands(request)
         return response.commands
-    
+
     async def listen_trigger(self, type: str) -> str:
         request = ListenTriggerRequest(name=self.name, type=type)
         response: ListenTriggerResponse = await self.client.ListenTrigger(request)
         return response.text
-    
+
     async def is_speaking(self) -> bool:
         request = IsSpeakingRequest(name=self.name)
         response: IsSpeakingResponse = await self.client.IsSpeaking(request)

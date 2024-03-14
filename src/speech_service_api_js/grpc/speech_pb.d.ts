@@ -61,6 +61,9 @@ export class ToTextRequest extends jspb.Message {
   getSpeech_asB64(): string;
   setSpeech(value: Uint8Array | string): void;
 
+  getFormat(): string;
+  setFormat(value: string): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ToTextRequest.AsObject;
   static toObject(includeInstance: boolean, msg: ToTextRequest): ToTextRequest.AsObject;
@@ -75,6 +78,7 @@ export namespace ToTextRequest {
   export type AsObject = {
     name: string,
     speech: Uint8Array | string,
+    format: string,
   }
 }
 
