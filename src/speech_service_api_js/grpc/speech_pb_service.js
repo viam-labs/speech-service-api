@@ -73,6 +73,15 @@ SpeechService.Listen = {
   responseType: speech_pb.ListenResponse
 };
 
+SpeechService.ListenInBackground = {
+  methodName: "ListenInBackground",
+  service: SpeechService,
+  requestStream: false,
+  responseStream: true,
+  requestType: speech_pb.ListenInBackgroundRequest,
+  responseType: speech_pb.ListenInBackgroundResponse
+};
+
 SpeechService.IsSpeaking = {
   methodName: "IsSpeaking",
   service: SpeechService,
@@ -301,6 +310,45 @@ SpeechServiceClient.prototype.listen = function listen(requestMessage, metadata,
   return {
     cancel: function () {
       callback = null;
+      client.close();
+    }
+  };
+};
+
+SpeechServiceClient.prototype.listenInBackground = function listenInBackground(requestMessage, metadata) {
+  var listeners = {
+    data: [],
+    end: [],
+    status: []
+  };
+  var client = grpc.invoke(SpeechService.ListenInBackground, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onMessage: function (responseMessage) {
+      listeners.data.forEach(function (handler) {
+        handler(responseMessage);
+      });
+    },
+    onEnd: function (status, statusMessage, trailers) {
+      listeners.status.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners.end.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners = null;
+    }
+  });
+  return {
+    on: function (type, handler) {
+      listeners[type].push(handler);
+      return this;
+    },
+    cancel: function () {
+      listeners = null;
       client.close();
     }
   };

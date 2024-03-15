@@ -3,6 +3,7 @@
 
 import * as jspb from "google-protobuf";
 import * as google_api_annotations_pb from "./google/api/annotations_pb";
+import * as google_protobuf_struct_pb from "google-protobuf/google/protobuf/struct_pb";
 
 export class SayRequest extends jspb.Message {
   getName(): string;
@@ -321,6 +322,52 @@ export class ListenResponse extends jspb.Message {
 }
 
 export namespace ListenResponse {
+  export type AsObject = {
+    text: string,
+  }
+}
+
+export class ListenInBackgroundRequest extends jspb.Message {
+  getName(): string;
+  setName(value: string): void;
+
+  hasExtra(): boolean;
+  clearExtra(): void;
+  getExtra(): google_protobuf_struct_pb.Struct | undefined;
+  setExtra(value?: google_protobuf_struct_pb.Struct): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ListenInBackgroundRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: ListenInBackgroundRequest): ListenInBackgroundRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: ListenInBackgroundRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ListenInBackgroundRequest;
+  static deserializeBinaryFromReader(message: ListenInBackgroundRequest, reader: jspb.BinaryReader): ListenInBackgroundRequest;
+}
+
+export namespace ListenInBackgroundRequest {
+  export type AsObject = {
+    name: string,
+    extra?: google_protobuf_struct_pb.Struct.AsObject,
+  }
+}
+
+export class ListenInBackgroundResponse extends jspb.Message {
+  getText(): string;
+  setText(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ListenInBackgroundResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: ListenInBackgroundResponse): ListenInBackgroundResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: ListenInBackgroundResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ListenInBackgroundResponse;
+  static deserializeBinaryFromReader(message: ListenInBackgroundResponse, reader: jspb.BinaryReader): ListenInBackgroundResponse;
+}
+
+export namespace ListenInBackgroundResponse {
   export type AsObject = {
     text: string,
   }

@@ -53,6 +53,7 @@ type Speech interface {
 	GetCommands(ctx context.Context, number int) ([]string, error)
 	ListenTrigger(ctx context.Context, typ string) (string, error)
 	Listen(ctx context.Context) (string, error)
+	ListenInBackground(ctx context.Context, ch chan string) error
 	IsSpeaking(ctx context.Context) (bool, error)
 }
 

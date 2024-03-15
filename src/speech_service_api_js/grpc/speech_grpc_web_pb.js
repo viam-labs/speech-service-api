@@ -21,6 +21,8 @@ grpc.web = require('grpc-web');
 
 
 var google_api_annotations_pb = require('./google/api/annotations_pb.js')
+
+var google_protobuf_struct_pb = require('google-protobuf/google/protobuf/struct_pb.js')
 const proto = {};
 proto.viamlabs = {};
 proto.viamlabs.service = {};
@@ -503,6 +505,62 @@ proto.viamlabs.service.speech.v1.SpeechServicePromiseClient.prototype.listen =
       request,
       metadata || {},
       methodDescriptor_SpeechService_Listen);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.viamlabs.service.speech.v1.ListenInBackgroundRequest,
+ *   !proto.viamlabs.service.speech.v1.ListenInBackgroundResponse>}
+ */
+const methodDescriptor_SpeechService_ListenInBackground = new grpc.web.MethodDescriptor(
+  '/viamlabs.service.speech.v1.SpeechService/ListenInBackground',
+  grpc.web.MethodType.SERVER_STREAMING,
+  proto.viamlabs.service.speech.v1.ListenInBackgroundRequest,
+  proto.viamlabs.service.speech.v1.ListenInBackgroundResponse,
+  /**
+   * @param {!proto.viamlabs.service.speech.v1.ListenInBackgroundRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.viamlabs.service.speech.v1.ListenInBackgroundResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.viamlabs.service.speech.v1.ListenInBackgroundRequest} request The request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!grpc.web.ClientReadableStream<!proto.viamlabs.service.speech.v1.ListenInBackgroundResponse>}
+ *     The XHR Node Readable Stream
+ */
+proto.viamlabs.service.speech.v1.SpeechServiceClient.prototype.listenInBackground =
+    function(request, metadata) {
+  return this.client_.serverStreaming(this.hostname_ +
+      '/viamlabs.service.speech.v1.SpeechService/ListenInBackground',
+      request,
+      metadata || {},
+      methodDescriptor_SpeechService_ListenInBackground);
+};
+
+
+/**
+ * @param {!proto.viamlabs.service.speech.v1.ListenInBackgroundRequest} request The request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!grpc.web.ClientReadableStream<!proto.viamlabs.service.speech.v1.ListenInBackgroundResponse>}
+ *     The XHR Node Readable Stream
+ */
+proto.viamlabs.service.speech.v1.SpeechServicePromiseClient.prototype.listenInBackground =
+    function(request, metadata) {
+  return this.client_.serverStreaming(this.hostname_ +
+      '/viamlabs.service.speech.v1.SpeechService/ListenInBackground',
+      request,
+      metadata || {},
+      methodDescriptor_SpeechService_ListenInBackground);
 };
 
 

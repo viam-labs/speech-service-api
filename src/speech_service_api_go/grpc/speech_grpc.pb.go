@@ -19,14 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	SpeechService_Say_FullMethodName           = "/viamlabs.service.speech.v1.SpeechService/Say"
-	SpeechService_ToText_FullMethodName        = "/viamlabs.service.speech.v1.SpeechService/ToText"
-	SpeechService_ToSpeech_FullMethodName      = "/viamlabs.service.speech.v1.SpeechService/ToSpeech"
-	SpeechService_Completion_FullMethodName    = "/viamlabs.service.speech.v1.SpeechService/Completion"
-	SpeechService_GetCommands_FullMethodName   = "/viamlabs.service.speech.v1.SpeechService/GetCommands"
-	SpeechService_ListenTrigger_FullMethodName = "/viamlabs.service.speech.v1.SpeechService/ListenTrigger"
-	SpeechService_Listen_FullMethodName        = "/viamlabs.service.speech.v1.SpeechService/Listen"
-	SpeechService_IsSpeaking_FullMethodName    = "/viamlabs.service.speech.v1.SpeechService/IsSpeaking"
+	SpeechService_Say_FullMethodName                = "/viamlabs.service.speech.v1.SpeechService/Say"
+	SpeechService_ToText_FullMethodName             = "/viamlabs.service.speech.v1.SpeechService/ToText"
+	SpeechService_ToSpeech_FullMethodName           = "/viamlabs.service.speech.v1.SpeechService/ToSpeech"
+	SpeechService_Completion_FullMethodName         = "/viamlabs.service.speech.v1.SpeechService/Completion"
+	SpeechService_GetCommands_FullMethodName        = "/viamlabs.service.speech.v1.SpeechService/GetCommands"
+	SpeechService_ListenTrigger_FullMethodName      = "/viamlabs.service.speech.v1.SpeechService/ListenTrigger"
+	SpeechService_Listen_FullMethodName             = "/viamlabs.service.speech.v1.SpeechService/Listen"
+	SpeechService_ListenInBackground_FullMethodName = "/viamlabs.service.speech.v1.SpeechService/ListenInBackground"
+	SpeechService_IsSpeaking_FullMethodName         = "/viamlabs.service.speech.v1.SpeechService/IsSpeaking"
 )
 
 // SpeechServiceClient is the client API for SpeechService service.
@@ -40,6 +41,7 @@ type SpeechServiceClient interface {
 	GetCommands(ctx context.Context, in *GetCommandsRequest, opts ...grpc.CallOption) (*GetCommandsResponse, error)
 	ListenTrigger(ctx context.Context, in *ListenTriggerRequest, opts ...grpc.CallOption) (*ListenTriggerResponse, error)
 	Listen(ctx context.Context, in *ListenRequest, opts ...grpc.CallOption) (*ListenResponse, error)
+	ListenInBackground(ctx context.Context, in *ListenInBackgroundRequest, opts ...grpc.CallOption) (SpeechService_ListenInBackgroundClient, error)
 	IsSpeaking(ctx context.Context, in *IsSpeakingRequest, opts ...grpc.CallOption) (*IsSpeakingResponse, error)
 }
 
@@ -114,6 +116,38 @@ func (c *speechServiceClient) Listen(ctx context.Context, in *ListenRequest, opt
 	return out, nil
 }
 
+func (c *speechServiceClient) ListenInBackground(ctx context.Context, in *ListenInBackgroundRequest, opts ...grpc.CallOption) (SpeechService_ListenInBackgroundClient, error) {
+	stream, err := c.cc.NewStream(ctx, &SpeechService_ServiceDesc.Streams[0], SpeechService_ListenInBackground_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &speechServiceListenInBackgroundClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type SpeechService_ListenInBackgroundClient interface {
+	Recv() (*ListenInBackgroundResponse, error)
+	grpc.ClientStream
+}
+
+type speechServiceListenInBackgroundClient struct {
+	grpc.ClientStream
+}
+
+func (x *speechServiceListenInBackgroundClient) Recv() (*ListenInBackgroundResponse, error) {
+	m := new(ListenInBackgroundResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *speechServiceClient) IsSpeaking(ctx context.Context, in *IsSpeakingRequest, opts ...grpc.CallOption) (*IsSpeakingResponse, error) {
 	out := new(IsSpeakingResponse)
 	err := c.cc.Invoke(ctx, SpeechService_IsSpeaking_FullMethodName, in, out, opts...)
@@ -134,6 +168,7 @@ type SpeechServiceServer interface {
 	GetCommands(context.Context, *GetCommandsRequest) (*GetCommandsResponse, error)
 	ListenTrigger(context.Context, *ListenTriggerRequest) (*ListenTriggerResponse, error)
 	Listen(context.Context, *ListenRequest) (*ListenResponse, error)
+	ListenInBackground(*ListenInBackgroundRequest, SpeechService_ListenInBackgroundServer) error
 	IsSpeaking(context.Context, *IsSpeakingRequest) (*IsSpeakingResponse, error)
 	mustEmbedUnimplementedSpeechServiceServer()
 }
@@ -162,6 +197,9 @@ func (UnimplementedSpeechServiceServer) ListenTrigger(context.Context, *ListenTr
 }
 func (UnimplementedSpeechServiceServer) Listen(context.Context, *ListenRequest) (*ListenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Listen not implemented")
+}
+func (UnimplementedSpeechServiceServer) ListenInBackground(*ListenInBackgroundRequest, SpeechService_ListenInBackgroundServer) error {
+	return status.Errorf(codes.Unimplemented, "method ListenInBackground not implemented")
 }
 func (UnimplementedSpeechServiceServer) IsSpeaking(context.Context, *IsSpeakingRequest) (*IsSpeakingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsSpeaking not implemented")
@@ -305,6 +343,27 @@ func _SpeechService_Listen_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SpeechService_ListenInBackground_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ListenInBackgroundRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(SpeechServiceServer).ListenInBackground(m, &speechServiceListenInBackgroundServer{stream})
+}
+
+type SpeechService_ListenInBackgroundServer interface {
+	Send(*ListenInBackgroundResponse) error
+	grpc.ServerStream
+}
+
+type speechServiceListenInBackgroundServer struct {
+	grpc.ServerStream
+}
+
+func (x *speechServiceListenInBackgroundServer) Send(m *ListenInBackgroundResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 func _SpeechService_IsSpeaking_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(IsSpeakingRequest)
 	if err := dec(in); err != nil {
@@ -363,6 +422,12 @@ var SpeechService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SpeechService_IsSpeaking_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "ListenInBackground",
+			Handler:       _SpeechService_ListenInBackground_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "speech.proto",
 }
