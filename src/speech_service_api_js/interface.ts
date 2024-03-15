@@ -74,6 +74,15 @@ export interface Speech extends Viam.Resource {
    */
    listen: (
     ) => Promise<string>;
+
+   /**
+   * Listen for speech in the background and respond to the callback with the processed text
+   *
+   * @returns - nothing
+   */
+   listenInBackground: (
+      callback: (text: string) => void
+    ) => Promise<void>;
    
    /**
    * Is the speech service current speaking out loud?

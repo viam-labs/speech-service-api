@@ -144,6 +144,24 @@ export class SpeechClient implements Speech {
     return response.getText();
   }
 
+  async listenInBackground(callback: (text: string) => void) {
+    const { service } = this;
+
+    const request = new pb.ListenInBackgroundRequest();
+    request.setName(this.name);
+
+    this.options.requestLogger?.(request);
+
+    const responseStream = await Viam.promisify<
+      pb.ListenInBackgroundRequest,
+      Viam.ResponseStream<pb.ListenInBackgroundResponse>
+    >(service.listenInBackground.bind(service), request);
+
+    responseStream.on("data", (message) => {
+      callback(message.getText());
+    });
+  }
+
   async isSpeaking() {
     const { service } = this;
 

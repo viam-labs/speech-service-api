@@ -10,6 +10,7 @@ if typing.TYPE_CHECKING:
     import grpclib.server
 
 import google.api.annotations_pb2
+import google.protobuf.struct_pb2
 from . import speech_pb2
 
 
@@ -41,6 +42,10 @@ class SpeechServiceBase(abc.ABC):
 
     @abc.abstractmethod
     async def Listen(self, stream: 'grpclib.server.Stream[speech_pb2.ListenRequest, speech_pb2.ListenResponse]') -> None:
+        pass
+
+    @abc.abstractmethod
+    async def ListenInBackground(self, stream: 'grpclib.server.Stream[speech_pb2.ListenInBackgroundRequest, speech_pb2.ListenInBackgroundResponse]') -> None:
         pass
 
     @abc.abstractmethod
@@ -90,6 +95,12 @@ class SpeechServiceBase(abc.ABC):
                 grpclib.const.Cardinality.UNARY_UNARY,
                 speech_pb2.ListenRequest,
                 speech_pb2.ListenResponse,
+            ),
+            '/viamlabs.service.speech.v1.SpeechService/ListenInBackground': grpclib.const.Handler(
+                self.ListenInBackground,
+                grpclib.const.Cardinality.UNARY_STREAM,
+                speech_pb2.ListenInBackgroundRequest,
+                speech_pb2.ListenInBackgroundResponse,
             ),
             '/viamlabs.service.speech.v1.SpeechService/IsSpeaking': grpclib.const.Handler(
                 self.IsSpeaking,
@@ -144,6 +155,12 @@ class SpeechServiceStub:
             '/viamlabs.service.speech.v1.SpeechService/Listen',
             speech_pb2.ListenRequest,
             speech_pb2.ListenResponse,
+        )
+        self.ListenInBackground = grpclib.client.UnaryStreamMethod(
+            channel,
+            '/viamlabs.service.speech.v1.SpeechService/ListenInBackground',
+            speech_pb2.ListenInBackgroundRequest,
+            speech_pb2.ListenInBackgroundResponse,
         )
         self.IsSpeaking = grpclib.client.UnaryUnaryMethod(
             channel,

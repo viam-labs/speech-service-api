@@ -21,7 +21,7 @@ To see the custom implementation of this service, see the speechio.py file.
 """
 
 import abc
-from typing import Final, Sequence
+from typing import Callable, Final, Sequence
 
 from grpclib.client import Channel
 from grpclib.server import Stream
@@ -34,6 +34,8 @@ from .grpc.speech_grpc import SpeechServiceBase, SpeechServiceStub
 from .grpc.speech_pb2 import (
     ListenRequest,
     ListenResponse,
+    ListenInBackgroundRequest,
+    ListenInBackgroundResponse,
     SayRequest,
     SayResponse,
     ToTextRequest,
@@ -75,6 +77,9 @@ class SpeechService(ServiceBase):
 
     @abc.abstractmethod
     async def listen(self) -> str: ...
+
+    @abc.abstractmethod
+    async def listen_in_background(self, callback: Callable[[str], None]): ...
 
     @abc.abstractmethod
     async def is_speaking(self) -> bool: ...
@@ -146,6 +151,17 @@ class SpeechRPCService(SpeechServiceBase, ResourceRPCServiceBase):
         resp = await service.listen()
         await stream.send_message(ListenResponse(text=resp))
 
+    async def ListenInBackground(
+        self, stream: Stream[ListenInBackgroundRequest, ListenInBackgroundResponse]
+    ) -> None:
+        request = await stream.recv_message()
+        assert request is not None
+        name = request.name
+        service = self.get_resource(name)
+
+        while resp := await service.listen_in_background():
+            await stream.send_message(ListenInBackgroundResponse(text=resp))
+
     async def IsSpeaking(
         self, stream: Stream[IsSpeakingRequest, IsSpeakingResponse]
     ) -> None:
@@ -198,6 +214,11 @@ class SpeechClient(SpeechService):
         request = ListenRequest(name=self.name)
         response: ListenResponse = await self.client.Listen(request)
         return response.text
+
+    async def listen_in_background(self, callback: Callable[[str], None]):
+        request = ListenInBackgroundRequest(name=self.name)
+        for response in await self.client.ListenInBackground(request):
+            callback(response.text)
 
     async def is_speaking(self) -> bool:
         request = IsSpeakingRequest(name=self.name)

@@ -7,6 +7,7 @@ import collections.abc
 import google.protobuf.descriptor
 import google.protobuf.internal.containers
 import google.protobuf.message
+import google.protobuf.struct_pb2
 import sys
 
 if sys.version_info >= (3, 8):
@@ -253,6 +254,42 @@ class ListenResponse(google.protobuf.message.Message):
     def ClearField(self, field_name: typing_extensions.Literal["text", b"text"]) -> None: ...
 
 global___ListenResponse = ListenResponse
+
+@typing_extensions.final
+class ListenInBackgroundRequest(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    NAME_FIELD_NUMBER: builtins.int
+    EXTRA_FIELD_NUMBER: builtins.int
+    name: builtins.str
+    @property
+    def extra(self) -> google.protobuf.struct_pb2.Struct:
+        """Additional arguments to the method"""
+    def __init__(
+        self,
+        *,
+        name: builtins.str = ...,
+        extra: google.protobuf.struct_pb2.Struct | None = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing_extensions.Literal["extra", b"extra"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing_extensions.Literal["extra", b"extra", "name", b"name"]) -> None: ...
+
+global___ListenInBackgroundRequest = ListenInBackgroundRequest
+
+@typing_extensions.final
+class ListenInBackgroundResponse(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    TEXT_FIELD_NUMBER: builtins.int
+    text: builtins.str
+    def __init__(
+        self,
+        *,
+        text: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing_extensions.Literal["text", b"text"]) -> None: ...
+
+global___ListenInBackgroundResponse = ListenInBackgroundResponse
 
 @typing_extensions.final
 class IsSpeakingRequest(google.protobuf.message.Message):

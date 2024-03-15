@@ -3,6 +3,7 @@ syntax = "proto3";
 package viamlabs.service.speech.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
 
 option go_package = "./speech-api";
 
@@ -46,6 +47,12 @@ service SpeechService {
   rpc Listen(ListenRequest) returns (ListenResponse) {
     option (google.api.http) = {
       post: "/viamlabs/api/v1/service/speech/{name}/listen"
+    };
+  }
+
+  rpc ListenInBackground(ListenInBackgroundRequest) returns (stream ListenInBackgroundResponse) {
+    option (google.api.http) = {
+      get: "/viamlabs/api/v1/service/speech/{name}/listen_in_background"
     };
   }
 
@@ -118,6 +125,16 @@ message ListenRequest {
 }
 
 message ListenResponse {
+  string text = 1;
+}
+
+message ListenInBackgroundRequest {
+  string name = 1;
+  // Additional arguments to the method
+  google.protobuf.Struct extra = 99;
+}
+
+message ListenInBackgroundResponse {
   string text = 1;
 }
 
