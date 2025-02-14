@@ -6,4 +6,10 @@ from viam.resource.registry import Registry, ResourceRegistration
 
 from .api import SpeechClient, SpeechRPCService, SpeechService
 
-Registry.register_subtype(ResourceRegistration(SpeechService, SpeechRPCService, lambda name, channel: SpeechClient(name, channel)))
+Registry.register_api(
+    ResourceRegistration(
+        SpeechService,
+        SpeechRPCService,
+        lambda name, channel: SpeechClient(name, channel),
+    )
+)
