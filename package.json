@@ -21,6 +21,8 @@
     "ts-protoc-gen": "^0.15.0"
   },
   "dependencies": {
+    "@bufbuild/protobuf": "^1.10.0",
+    "@connectrpc/connect": "^1.6.0",
     "@viamrobotics/sdk": "^0.35.2",
     "googleapis": "^133.0.0"
   }
