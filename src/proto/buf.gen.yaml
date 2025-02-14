@@ -19,16 +19,7 @@ plugins:
     opt:
       - paths=source_relative
       - generate_unbound_methods=true
-  - plugin: js
+  - plugin: buf.build/connectrpc/es
     out: speech_service_api_js/grpc
-    opt:
-      - import_style=commonjs
-  - plugin: grpc-web
+  - plugin: buf.build/bufbuild/es
     out: speech_service_api_js/grpc
-    opt:
-      - import_style=commonjs
-      - mode=grpcwebtext
-  - plugin: ts
-    out: speech_service_api_js/grpc
-    opt:
-      - service=grpc-web

@@ -21,13 +21,13 @@ To see the custom implementation of this service, see the speechio.py file.
 """
 
 import abc
-from typing import Final, Sequence
+from typing import Sequence
 
 from grpclib.client import Channel
 from grpclib.server import Stream
 
 from viam.resource.rpc_service_base import ResourceRPCServiceBase
-from viam.resource.types import RESOURCE_TYPE_SERVICE, Subtype
+from viam.resource.types import RESOURCE_TYPE_SERVICE, API
 from viam.services.service_base import ServiceBase
 
 from .grpc.speech_grpc import SpeechServiceBase, SpeechServiceStub
@@ -53,7 +53,7 @@ from .grpc.speech_pb2 import (
 
 class SpeechService(ServiceBase):
 
-    SUBTYPE: Final = Subtype("viam-labs", RESOURCE_TYPE_SERVICE, "speech")
+    API = API("viam-labs", RESOURCE_TYPE_SERVICE, "speech")
 
     @abc.abstractmethod
     async def say(self, text: str, blocking: bool) -> str: ...

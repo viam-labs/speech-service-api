@@ -11,7 +11,7 @@
   "author": "",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@bufbuild/buf": "^1.29.0",
+    "@bufbuild/buf": "^1.50.0",
     "@grpc/grpc-js": "^1.10.1",
     "@types/google-protobuf": "^3.15.12",
     "google-protobuf": "^3.21.2",
@@ -21,7 +21,9 @@
     "ts-protoc-gen": "^0.15.0"
   },
   "dependencies": {
-    "@viamrobotics/sdk": "^0.11.1-next.0",
+    "@bufbuild/protobuf": "^1.10.0",
+    "@connectrpc/connect": "^1.6.0",
+    "@viamrobotics/sdk": "^0.35.2",
     "googleapis": "^133.0.0"
   }
 }

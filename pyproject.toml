@@ -6,7 +6,7 @@ authors = [
     {name = "Nick Hehr", email = "nick.hehr@viam.com"},
 ]
 dependencies = [
-    "viam-sdk>=0.13.2",
+    "viam-sdk>=0.40.0",
 ]
 requires-python = "<3.13"
 readme = "README.md"

@@ -1,6 +1,8 @@
-import pb from './grpc/speech_pb';
-import { SpeechServiceClient } from './grpc/speech_pb_service';
+import { Struct, type JsonValue } from '@bufbuild/protobuf';
+import { type Client } from '@connectrpc/connect';
 import * as Viam from '@viamrobotics/sdk';
+import * as pb from './grpc/speech_pb';
+import { SpeechService } from './grpc/speech_connect';
 import type { Speech } from './interface';
 
 /**
@@ -9,158 +11,110 @@ import type { Speech } from './interface';
  * @group Clients
  */
 export class SpeechClient implements Speech {
-  private client: SpeechServiceClient;
+  private client: Client<typeof SpeechService>;
   private readonly name: string;
   private readonly options: Viam.Options;
 
   constructor(client: Viam.RobotClient, name: string, options: Viam.Options = {}) {
-    this.client = client.createServiceClient(SpeechServiceClient);
+    this.client = client.createServiceClient(SpeechService);
     this.name = name;
     this.options = options;
   }
 
-  private get service() {
-    return this.client;
-  }
-
   async say(text: string, blocking: boolean) {
-    const { service } = this;
-
-    const request = new pb.SayRequest();
-    request.setName(this.name);
-    request.setText(text);
-    request.setBlocking(blocking);
+    const request = new pb.SayRequest({
+      name: this.name,
+      text,
+      blocking,
+    });
 
     this.options.requestLogger?.(request);
 
-    const response = await Viam.promisify<
-      pb.SayRequest,
-      pb.SayResponse
-    >(service.say.bind(service), request);
-
-    return response.getText();
+    const response = await this.client.say(request)
+    return response.text
   }
 
   async toText(speech: Uint8Array, format: string) {
-    const { service } = this;
-
-    const request = new pb.ToTextRequest();
-    request.setName(this.name);
-    request.setSpeech(speech);
-    request.setFormat(format)
+    const request = new pb.ToTextRequest({
+      name: this.name,
+      speech,
+      format,
+    });
 
     this.options.requestLogger?.(request);
 
-    const response = await Viam.promisify<
-      pb.ToTextRequest,
-      pb.ToTextResponse
-    >(service.toText.bind(service), request);
-
-    return response.getText();
+    const response = await this.client.toText(request);
+    return response.text;
   }
 
   async toSpeech(text: string) {
-    const { service } = this;
-
-    const request = new pb.ToSpeechRequest();
-    request.setName(this.name);
-    request.setText(text);
+    const request = new pb.ToSpeechRequest({
+      name: this.name,
+      text,
+    });
 
     this.options.requestLogger?.(request);
 
-    const response = await Viam.promisify<
-      pb.ToSpeechRequest,
-      pb.ToSpeechResponse
-    >(service.toSpeech.bind(service), request);
-
-    return response.getSpeech_asU8();
+    const response = await this.client.toSpeech(request);
+    return response.speech
   }
 
   async completion(text: string, blocking: boolean) {
-    const { service } = this;
-
-    const request = new pb.CompletionRequest();
-    request.setName(this.name);
-    request.setText(text);
-    request.setBlocking(blocking);
+    const request = new pb.CompletionRequest({
+      name: this.name,
+      text,
+      blocking,
+    });
 
     this.options.requestLogger?.(request);
 
-    const response = await Viam.promisify<
-      pb.CompletionRequest,
-      pb.CompletionResponse
-    >(service.completion.bind(service), request);
-
-    return response.getText();
+    const response = await this.client.completion(request);
+    return response.text;
   }
 
   async getCommands(number: number) {
-    const { service } = this;
-
-    const request = new pb.GetCommandsRequest();
-    request.setName(this.name);
-    request.setNumber(number);
+    const request = new pb.GetCommandsRequest({
+      name: this.name,
+      number,
+    });
 
     this.options.requestLogger?.(request);
 
-    const response = await Viam.promisify<
-      pb.GetCommandsRequest,
-      pb.GetCommandsResponse
-    >(service.getCommands.bind(service), request);
-
-    return response.getCommandsList();
+    const response = await this.client.getCommands(request);
+    return response.commands;
   }
 
   async listenTrigger(type: string) {
-    const { service } = this;
-
-    const request = new pb.ListenTriggerRequest();
-    request.setName(this.name);
-    request.setType(type);
+    const request = new pb.ListenTriggerRequest({
+      name: this.name,
+      type,
+    });
 
     this.options.requestLogger?.(request);
 
-    const response = await Viam.promisify<
-      pb.ListenTriggerRequest,
-      pb.ListenTriggerResponse
-    >(service.listenTrigger.bind(service), request);
-
-    return response.getText();
+    const response = await this.client.listenTrigger(request);
+    return response.text;
   }
 
   async listen() {
-    const { service } = this;
-
-    const request = new pb.ListenRequest();
-    request.setName(this.name);
+    const request = new pb.ListenRequest({ name: this.name });
 
     this.options.requestLogger?.(request);
 
-    const response = await Viam.promisify<
-      pb.ListenRequest,
-      pb.ListenResponse
-    >(service.listen.bind(service), request);
-
-    return response.getText();
+    const response = await this.client.listen(request);
+    return response.text;
   }
 
   async isSpeaking() {
-    const { service } = this;
-
-    const request = new pb.IsSpeakingRequest();
-    request.setName(this.name);
+    const request = new pb.IsSpeakingRequest({ name: this.name });
 
     this.options.requestLogger?.(request);
 
-    const response = await Viam.promisify<
-      pb.IsSpeakingRequest,
-      pb.IsSpeakingResponse
-    >(service.isSpeaking.bind(service), request);
-
-    return response.getStatus();
+    const response = await this.client.isSpeaking(request);
+    return response.status;
   }
 
-  async doCommand(_command: Viam.StructType): Promise<Viam.StructType> {
+  async doCommand(_command: Struct): Promise<JsonValue> {
     return {}
   }
 }
