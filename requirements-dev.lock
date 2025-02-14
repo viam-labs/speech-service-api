@@ -6,9 +6,13 @@
 #   features: []
 #   all-features: false
 #   with-sources: false
+#   generate-hashes: false
+#   universal: false
 
 -e file:.
-googleapis-common-protos==1.63.0
+dnspython==2.7.0
+    # via pymongo
+googleapis-common-protos==1.67.0
     # via viam-sdk
 grpclib==0.4.7
     # via viam-sdk
@@ -20,12 +24,12 @@ hyperframe==6.0.1
     # via h2
 multidict==6.0.5
     # via grpclib
-pillow==10.2.0
-    # via viam-sdk
-protobuf==4.25.3
+protobuf==5.29.1
     # via googleapis-common-protos
     # via viam-sdk
-typing-extensions==4.10.0
+pymongo==4.11.1
     # via viam-sdk
-viam-sdk==0.15.0
+typing-extensions==4.12.2
+    # via viam-sdk
+viam-sdk==0.40.0
     # via speech-service-api
