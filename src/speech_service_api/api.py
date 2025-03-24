@@ -106,6 +106,12 @@ class SpeechRPCService(SpeechServiceBase, ResourceRPCServiceBase):
         name = request.name
         service = self.get_resource(name)
         resp = await service.to_speech(request.text)
+        if not isinstance(resp, bytes):
+            if hasattr(resp, '__aiter__'):
+                chunks = [chunk async for chunk in resp]
+                resp = b''.join(chunks)
+            elif hasattr(resp, '__iter__'):
+                resp = b''.join(resp)
         await stream.send_message(ToSpeechResponse(speech=resp))
 
     async def Completion(
