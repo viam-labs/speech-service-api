@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/edaniels/golog"
 	speech "github.com/viam-labs/speech-service-api/src/speech_service_api_go"
+	"go.viam.com/rdk/logging"
 	"go.viam.com/rdk/robot/client"
 	"go.viam.com/utils/rpc"
 )
 
 func main() {
-	logger := golog.NewDevelopmentLogger("client")
+	logger := logging.NewDevelopmentLogger("client")
 	robot, err := client.New(
 		context.Background(),
 		os.Getenv("ROBOT_ADDRESS"),
