@@ -1,6 +1,6 @@
 version: v1
 plugins:
-  - plugin: buf.build/protocolbuffers/python:v29.1
+  - plugin: buf.build/protocolbuffers/python:v29.2
     out: speech_service_api/grpc
   - name: grpclib_python
     out: speech_service_api/grpc

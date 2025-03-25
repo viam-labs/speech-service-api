@@ -4,5 +4,6 @@ generate:
 	sed -i "" -e "s/import\ speech_pb2/from\ \.\ import\ speech_pb2/" ./src/speech_service_api/grpc/*.py
 
 install:
-	pip install -r requirements.lock
+	uv pip install -r requirements.lock
 	npm ci
+	go mod tidy

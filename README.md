@@ -123,10 +123,10 @@ options snd slots=snd-usb-audio,snd_soc_meson_card_utils
 
 ## Development
 
-This project is managed by [rye](https://rye-up.com/). To initialize the development environment, follow the [installation instructions](https://rye-up.com/guide/installation/) and run:
+This project is managed by [uv](https://docs.astral.sh/uv/). To initialize the development environment, follow the [installation instructions](https://docs.astral.sh/uv/#installation) and run:
 
 ```console
-rye sync
+uv sync
 ```
 
 To rebuild the gRPC bindings run:
@@ -134,3 +134,11 @@ To rebuild the gRPC bindings run:
 ``` bash
 make generate
 ```
+
+To publish a new version:
+
+- update the version string in `pyproject.toml` and `package.json`
+- tag a commit with the new version `git tag v<major>.<minor>.<patch>`
+- push the commit and tag to the GitHub repo `git push origin main --tags`
+
+**Be sure to update any dependent Viam module to this new release version.**

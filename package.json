@@ -23,7 +23,7 @@
   "dependencies": {
     "@bufbuild/protobuf": "^1.10.0",
     "@connectrpc/connect": "^1.6.0",
-    "@viamrobotics/sdk": "^0.35.2",
+    "@viamrobotics/sdk": "^0.38.0",
     "googleapis": "^133.0.0"
   }
 }
