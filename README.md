@@ -62,7 +62,7 @@ You can now import and use it in your code as follows:
 ``` python
 from speech_service_api import SpeechService
 speech = SpeechService.from_robot(robot, name="speech")
-speech.say("hello", true)
+await speech.say("hello", True)
 ```
 
 See client.py for an example.
