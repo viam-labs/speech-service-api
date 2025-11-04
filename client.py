@@ -35,9 +35,9 @@ async def main():
     audio = await speech.to_speech("Hello there!")
     with open("my_file.mp3", "wb") as binary_file:
         binary_file.write(audio)
-    LOGGER.info(f"Wrote audio to my_file.mp3")
+    LOGGER.info("Wrote audio to my_file.mp3")
 
-    text = await speech.to_text(audio)
+    text = await speech.to_text(audio, "mp3")
     LOGGER.info(f"Got text '{text}'")
 
     # note: this will fail unless you have a completion provider configured
