@@ -59,11 +59,11 @@ type Speech interface {
 // serviceServer implements the Speech RPC service from speech.proto.
 type serviceServer struct {
 	pb.UnimplementedSpeechServiceServer
-	coll resource.APIResourceCollection[Speech]
+	coll resource.APIResourceGetter[Speech]
 }
 
 // NewRPCServiceServer returns a new RPC server for the Speech API.
-func NewRPCServiceServer(coll resource.APIResourceCollection[Speech]) interface{} {
+func NewRPCServiceServer(coll resource.APIResourceGetter[Speech]) interface{} {
 	return &serviceServer{coll: coll}
 }
 

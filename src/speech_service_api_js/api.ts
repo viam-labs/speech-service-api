@@ -12,7 +12,7 @@ import type { Speech } from './interface';
  */
 export class SpeechClient implements Speech {
   private client: Client<typeof SpeechService>;
-  private readonly name: string;
+  readonly name: string;
   private readonly options: Viam.Options;
 
   constructor(client: Viam.RobotClient, name: string, options: Viam.Options = {}) {
