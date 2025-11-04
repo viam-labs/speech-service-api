@@ -1,6 +1,6 @@
 {
   "name": "speech-service-api",
-  "version": "0.5.5",
+  "version": "0.6.0",
   "main": "src/speech_service_api_js/main.ts",
   "description": "Viam Labs speech service API",
   "directories": {
